@@ -1,5 +1,4 @@
 #include "game.h"
-#include "textureManager.h"
 #include <GL/glew.h>
 #include <SDL2/SDL_image.h>
 #include <stdexcept>
@@ -38,7 +37,6 @@ Game::Game(int width, int height, const std::string& title)
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
 
-    TextureManager::getInstance().loadTexture("blockTexture", "../assets/texture.png");
     world.load();
 }
 

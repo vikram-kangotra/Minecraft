@@ -7,13 +7,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCES
     src/main.cpp
-    src/game.cpp
-    src/block/block.cpp
-    src/block/mesh.cpp
-    src/block/dirtBlock.cpp
-    src/shader.cpp
-    src/camera.cpp
     src/world.cpp
+    src/shader.cpp
+    src/game.cpp
+    src/block/dirtBlock.cpp 
+    src/block/mesh.cpp
+    src/block/block.cpp
+    src/block/skybox.cpp
+    src/camera.cpp
     src/textureManager.cpp
 )
 

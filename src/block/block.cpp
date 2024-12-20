@@ -2,10 +2,8 @@
 #include "../textureManager.h"
 #include <glm/gtc/matrix_transform.hpp>
 
-std::unique_ptr<Mesh> Block::mesh;
-
-Block::Block(const glm::vec3& position)
-    : position(position) {
+Block::Block(const glm::vec3& position, const std::string& textureID)
+    : position(position), textureID(textureID) {
 
     model = glm::mat4(1);
 
@@ -13,13 +11,9 @@ Block::Block(const glm::vec3& position)
     model = glm::translate(model, position);
 }
 
-void Block::set_mesh(std::unique_ptr<Mesh>& m) {
-    mesh = std::move(m);
-}
-
 void Block::render(const glm::mat4& view, const glm::mat4& projection) {
 
-    TextureManager::getInstance().bindTexture("blockTexture");
+    TextureManager::getInstance().bindTexture(textureID);
 
     auto shader = Shader::getShader("default");
 
@@ -29,7 +23,7 @@ void Block::render(const glm::mat4& view, const glm::mat4& projection) {
     shader->setUniform("view", view);
     shader->setUniform("projection", projection);
 
-    mesh->render();
+    getMesh().render();
 
     shader->unuse();
 }

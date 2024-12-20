@@ -1,12 +1,12 @@
 #include "world.h"
 #include "block/dirtBlock.h"
+#include "block/skybox.h"
 #include <glm/gtc/noise.hpp>
 #include <memory>
 
 void World::load() {
 
-    auto mesh = std::make_unique<Mesh>("../assets/cube.obj");
-    Block::set_mesh(mesh);
+    skybox = std::make_unique<Skybox>();
 
     for (int i = -20; i <= 20; i++) {
         for (int k = -20; k <= 20; k++) {
@@ -18,6 +18,9 @@ void World::load() {
 }
 
 void World::update() {
+
+    skybox->update();
+
     for (auto& block: blocks) {
         block->update();
     }
@@ -27,6 +30,10 @@ void World::render(float aspectRatio, Camera& camera) {
 
     glm::mat4 view = camera.getViewMatrix();
     glm::mat4 projection = camera.getProjectionMatrix(aspectRatio);
+
+    glDisable(GL_CULL_FACE);
+    skybox->render(view, projection);
+    glEnable(GL_CULL_FACE);
 
     for (auto& block: blocks) {
         block->render(view, projection);

@@ -6,7 +6,7 @@
 
 class Block {
 public:
-    Block(const glm::vec3& position);
+    Block(const glm::vec3& position, const std::string& textureID);
     virtual ~Block() {}
 
     static void set_mesh(std::unique_ptr<Mesh>& mesh);
@@ -15,10 +15,15 @@ public:
 
     virtual void update() {}
 
+    virtual Mesh& getMesh() = 0;
+
+    GLuint createTextureBuffer(const std::vector<GLfloat>& textureCoord) {
+        return getMesh().createTextureBuffer(textureCoord);
+    }
+
 protected:
     glm::vec3 position;
     glm::mat4 model;
 
-private:
-    static std::unique_ptr<Mesh> mesh;
+    const std::string textureID;
 };

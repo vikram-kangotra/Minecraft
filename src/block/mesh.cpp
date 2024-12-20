@@ -32,6 +32,22 @@ Mesh::~Mesh() {
     glDeleteVertexArrays(1, &vao);
 }
 
+GLuint Mesh::createTextureBuffer(const std::vector<GLfloat>& textureCoord) {
+
+    GLuint vbo;
+
+    glGenBuffers(1, &vbo);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, textureCoord.size() * sizeof(GLfloat), textureCoord.data(), GL_STATIC_DRAW);
+
+    // Texture coordinate attribute
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)0);
+    glEnableVertexAttribArray(1);
+
+    return vbo;
+}
+
 void Mesh::loadOBJ(const std::filesystem::path& filePath) {
     std::ifstream file(filePath);
     if (!file.is_open()) {

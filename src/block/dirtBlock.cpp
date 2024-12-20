@@ -35,31 +35,15 @@ static const std::vector<GLfloat> textureCoord = {
 };
 
 GLuint DirtBlock::vbo;
+std::unique_ptr<Mesh> DirtBlock::mesh;
 
-DirtBlock::DirtBlock(const glm::vec3& position) : Block(position) {
+DirtBlock::DirtBlock(const glm::vec3& position) : Block(position, "blockTexture") {
 
-    createTextureBuffer();
-}
+    if (!mesh) {
+        mesh  = std::make_unique<Mesh>("../assets/cube.obj");
+    }
 
-void DirtBlock::createTextureBuffer() {
     if (vbo == 0) {
-        glGenBuffers(1, &vbo);
-
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, textureCoord.size() * sizeof(GLfloat), textureCoord.data(), GL_STATIC_DRAW);
-
-        // Texture coordinate attribute
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)0);
-        glEnableVertexAttribArray(1);
+        vbo = createTextureBuffer(textureCoord);
     }
 }
-
-/*
-
-
-TODO: Test if creating another block would be an issue given the current structure of the game
-
-I guess the blocks are sharing same VAO so creating another texture would be difficult.
-What needs to be done is that each type of block must have its own mesh instance
-
-*/

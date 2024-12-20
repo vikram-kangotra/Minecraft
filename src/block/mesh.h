@@ -11,6 +11,8 @@ public:
 
     void render();
 
+    GLuint createTextureBuffer(const std::vector<GLfloat>& textureCoord);
+
 private:
 
     void loadOBJ(const std::filesystem::path& filePath);
